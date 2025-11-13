@@ -1,0 +1,13 @@
+#gridDisplay {
+    display: none;
+    margin: auto;
+    width: 1000px;
+    height: 500px;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border: 3px solid grey;
+
+    div {
+    border: 3px solid grey;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/styles/style.css">
+    <title>Life Game</title>
+</head>
+
+<body>
+    <header>
+        <h1>Le Jeu de la Vie</h1>
+    </header>
+    <main>
+        <div id="rules">
+            <p>Règles</p>
+        </div>
+        <form>
+            <h2>Paramètres de l'expérience</h2>
+            <div>
+                <h3>Taille de la grille</h3>
+                <label for="gridWidth">Nombre de colonnes : </label>
+                <input type="number" id="gridWidth">
+                <label for="gridHeight">Nombre de lignes : </label>
+                <input type="number" id="gridHeight">
+            </div>
+            <div>
+                <h3>Conditions de survie de la cellule</h3>
+                <label for="isolation">Minimum de voisines : </label>
+                <input type="number" id="isolation">
+                <label for="overdose">Maximum de voisines : </label>
+                <input type="number" id="overdose">
+            </div>
+            <div>
+                <h3>Conditions de naissance d'une cellule</h3>
+                <label for="birth">Nombre de parents nécessaires : </label>
+                <input type="number" id="birth">
+            </div>
+            <div>
+                <h3>Durée de l'expérience</h3>
+                <label for="occurrence">Nombre d'occurrences : </label>
+                <input type="number" id="occurrence">
+            </div>
+            <button>Valider les paramètres</button>
+        </form>
+        <div id="gridDisplay"></div>
+    </main>
+    <footer>
+        <p>Cliquez sur plusieurs cellules pour les faire "naître", puis cliquez sur le bouton "Démarrer" pour lancer
+            l'expérience.</p>
+        <button id="start">Démarrer</button>
+    </footer>
+
+    <script src="./assets/scripts/script.js"></script>
+</body>
+
+</html>

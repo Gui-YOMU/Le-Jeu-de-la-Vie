@@ -16,10 +16,10 @@ let counter = 0
 
 function gridCreation() {
     gridDisplay.replaceChildren()
-    // gridSize = gridWidth.value * gridHeight.value
-    // gridDisplay.style.gridTemplateColumns = `repeat(${gridWidth.value}, 1fr)`
-    // gridDisplay.style.gridTemplateRows = `repeat(${gridHeight.value}, 1fr)`
-    for (let i = 0; i < 200; i++) {
+    gridSize = gridWidth.value * gridHeight.value
+    gridDisplay.style.gridTemplateColumns = `repeat(${gridWidth.value}, 1fr)`
+    gridDisplay.style.gridTemplateRows = `repeat(${gridHeight.value}, 1fr)`
+    for (let i = 0; i < gridSize; i++) {
         square = document.createElement("div")
         square.textContent = `${i}`
         gridDisplay.appendChild(square)
@@ -44,6 +44,7 @@ settings.addEventListener("submit", (e) => {
 document.querySelector("#start").addEventListener("click", step)
 
 function step() {
+    counter++
     squareColorCheck()
     blackSquarePerimeterCheck()
     whiteSquarePerimeterCheck()
@@ -51,7 +52,7 @@ function step() {
 }
 
 function squareColorCheck() {
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < gridSize; i++) {
         if (document.getElementById(`square${i}`).style.backgroundColor == "black") {
             blackSquareArray.push(i)
         } else if (document.getElementById(`square${i}`).style.backgroundColor == "white") {
@@ -62,7 +63,7 @@ function squareColorCheck() {
 
 function blackSquarePerimeterCheck() {
     for (let i = 0; i < blackSquareArray.length; i++) {
-        for (let j = (20 - 1); j <= (20 + 1); j++) {
+        for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
             if (document.getElementById(`square${blackSquareArray[i] - j}`) != null) {
                 if (document.getElementById(`square${blackSquareArray[i] - j}`).style.backgroundColor == "black") {
                     blackCounter++
@@ -84,7 +85,6 @@ function blackSquarePerimeterCheck() {
                 blackCounter++
             }
         }
-        console.log(blackCounter);
         createDeath(document.getElementById(`square${blackSquareArray[i]}`), blackCounter)
         blackCounter = 0
     }
@@ -92,7 +92,7 @@ function blackSquarePerimeterCheck() {
 
 function whiteSquarePerimeterCheck() {
     for (let i = 0; i < whiteSquareArray.length; i++) {
-        for (let j = (20 - 1); j <= (20 + 1); j++) {
+        for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
             if (document.getElementById(`square${whiteSquareArray[i] - j}`) != null) {
                 if (document.getElementById(`square${whiteSquareArray[i] - j}`).style.backgroundColor == "black") {
                     blackCounter++
@@ -120,27 +120,29 @@ function whiteSquarePerimeterCheck() {
 }
 
 function createLife(square, counter) {
-    if (counter == 3) {
+    if (counter == parseInt(birth.value)) {
         square.classList.add("toLive")
     }
 }
 
 function createDeath(square, counter) {
-    if (counter < 2 || counter > 3) {
+    if (counter < parseInt(isolation.value) || counter > parseInt(overdose.value)) {
         square.classList.add("toDie")
     }
 }
 
 function changeCells() {
-    let dyingCells = document.querySelectorAll(".toDie")
-    let livingCells = document.querySelectorAll(".toLive")
-    dyingCells.forEach(element => {
-        element.style.backgroundColor = "white"
-    });
-    livingCells.forEach(element => {
-        element.style.backgroundColor = "black"
-    })
-    reset()
+    if (counter <= parseInt(occurrence.value)) {
+        let dyingCells = document.querySelectorAll(".toDie")
+        let livingCells = document.querySelectorAll(".toLive")
+        dyingCells.forEach(element => {
+            element.style.backgroundColor = "white"
+        });
+        livingCells.forEach(element => {
+            element.style.backgroundColor = "black"
+        })
+        reset()
+    }
 }
 
 function reset() {
@@ -154,5 +156,5 @@ function reset() {
     newCells.forEach(element => {
         element.classList.remove("toLive")
     })
-    console.log("etape terminée");
+    setTimeout(step, 1000)
 }

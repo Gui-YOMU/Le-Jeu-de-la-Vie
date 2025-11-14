@@ -14,42 +14,46 @@
     </header>
     <main>
         <div id="rules">
-            <p>Règles</p>
+            <p>Dans le Jeu de la Vie, des cellules vont apparaître et disparaître en fonction des cellules de leur entourage direct.</p>
+            <p>Paramétrez, lancez l'expérience et regardez le spectacle de la vie !</p>
         </div>
         <form>
             <h2>Paramètres de l'expérience</h2>
             <div>
                 <h3>Taille de la grille</h3>
                 <label for="gridWidth">Nombre de colonnes : </label>
-                <input type="number" id="gridWidth">
-                <label for="gridHeight">Nombre de lignes : </label>
-                <input type="number" id="gridHeight">
+                <input type="number" id="gridWidth" value="50" min="10" max="100">
             </div>
             <div>
                 <h3>Conditions de survie de la cellule</h3>
                 <label for="isolation">Minimum de voisines : </label>
-                <input type="number" id="isolation">
+                <input type="number" id="isolation" value="2" min="1" max="6">
                 <label for="overdose">Maximum de voisines : </label>
-                <input type="number" id="overdose">
+                <input type="number" id="overdose" value="3" min="2" max="7">
             </div>
             <div>
                 <h3>Conditions de naissance d'une cellule</h3>
                 <label for="birth">Nombre de parents nécessaires : </label>
-                <input type="number" id="birth">
+                <input type="number" id="birth" value="3" min="1" max="8">
             </div>
             <div>
                 <h3>Durée de l'expérience</h3>
                 <label for="occurrence">Nombre d'occurrences : </label>
-                <input type="number" id="occurrence">
+                <input type="number" id="occurrence" value="100" min="10" max="1000">
+                <label for="delay">Délai (en millisecondes): </label>
+                <input type="number" id="delay" value="75" min="25" max="1000">
             </div>
             <button>Valider les paramètres</button>
         </form>
         <div id="gridDisplay"></div>
     </main>
     <footer>
-        <p>Cliquez sur plusieurs cellules pour les faire "naître", puis cliquez sur le bouton "Démarrer" pour lancer
-            l'expérience.</p>
+        <p>Cliquez sur plusieurs cellules pour les faire "naître" (ou cliquez sur le bouton "Random" pour un design
+            aléatoire), puis cliquez sur le bouton "Démarrer" pour lancer l'expérience.</p>
+        <button id="random">Random</button>
         <button id="start">Démarrer</button>
+        <button id="reset">Retour</button>
+        <p>Etapes : <span id="stepDisplay">0</span></p>
     </footer>
 
     <script src="./assets/scripts/script.js"></script>

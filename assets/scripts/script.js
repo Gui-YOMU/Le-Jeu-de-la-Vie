@@ -1,11 +1,14 @@
 let gridDisplay = document.querySelector("#gridDisplay")
+let rulesDisplay = document.querySelector("#rules")
 let settings = document.querySelector("form")
 let gridWidth = document.querySelector("#gridWidth")
-let gridHeight = document.querySelector("#gridHeight")
 let isolation = document.querySelector("#isolation")
 let overdose = document.querySelector("#overdose")
 let birth = document.querySelector("#birth")
 let occurrence = document.querySelector("#occurrence")
+let delay = document.querySelector("#delay")
+let stepDisplay = document.querySelector("#stepDisplay")
+let footer = document.querySelector("footer")
 
 let gridSize = 0
 let blackSquareArray = []
@@ -16,12 +19,12 @@ let counter = 0
 
 function gridCreation() {
     gridDisplay.replaceChildren()
-    gridSize = gridWidth.value * gridHeight.value
+    let gridHeight = Math.floor(parseInt(gridWidth.value) / 2)
+    gridSize = gridWidth.value * gridHeight
     gridDisplay.style.gridTemplateColumns = `repeat(${gridWidth.value}, 1fr)`
-    gridDisplay.style.gridTemplateRows = `repeat(${gridHeight.value}, 1fr)`
+    gridDisplay.style.gridTemplateRows = `repeat(${gridHeight}, 1fr)`
     for (let i = 0; i < gridSize; i++) {
         square = document.createElement("div")
-        square.textContent = `${i}`
         gridDisplay.appendChild(square)
         square.setAttribute("id", `square${i}`)
         square.style.backgroundColor = "white"
@@ -37,14 +40,33 @@ function gridCreation() {
 
 settings.addEventListener("submit", (e) => {
     e.preventDefault()
+    rulesDisplay.style.display = "none"
+    settings.style.display = "none"
     gridDisplay.style.display = "grid"
+    footer.style.display = "block"
     gridCreation()
 })
 
 document.querySelector("#start").addEventListener("click", step)
 
+document.querySelector("#random").addEventListener("click", randomize)
+
+document.querySelector("#reset").addEventListener("click", () => {
+    location.reload()
+})
+
+function randomize() {
+    let random = 0
+    for (let i = 0; i < gridSize; i++) {
+        random = Math.floor(Math.random() * 2)
+        if (random == 1) {
+            document.getElementById(`square${i}`).style.backgroundColor = "black"
+        }
+    }
+}
+
 function step() {
-    counter++
+
     squareColorCheck()
     blackSquarePerimeterCheck()
     whiteSquarePerimeterCheck()
@@ -132,6 +154,7 @@ function createDeath(square, counter) {
 }
 
 function changeCells() {
+    counter++
     if (counter <= parseInt(occurrence.value)) {
         let dyingCells = document.querySelectorAll(".toDie")
         let livingCells = document.querySelectorAll(".toLive")
@@ -141,6 +164,7 @@ function changeCells() {
         livingCells.forEach(element => {
             element.style.backgroundColor = "black"
         })
+        stepDisplay.textContent = counter
         reset()
     }
 }
@@ -156,5 +180,5 @@ function reset() {
     newCells.forEach(element => {
         element.classList.remove("toLive")
     })
-    setTimeout(step, 1000)
+    setTimeout(step, (parseInt(delay.value)))
 }

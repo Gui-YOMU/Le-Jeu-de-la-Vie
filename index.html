@@ -17,13 +17,13 @@
     </header>
     <main>
         <div id="rules">
-            <p>Dans le Jeu de la Vie, des cellules vont apparaître et disparaître en fonction des cellules de leur
-                entourage direct.</p>
+            <p>Dans le Jeu de la Vie, des cellules apparaissent et disparaissent au sein d'une grille en fonction des cellules actives voisines.</p>
             <p>Paramétrez, lancez l'expérience et regardez le spectacle de la vie !</p>
         </div>
         <form>
             <div class="gridCell" id="cell1">
                 <h2>Paramètres de l'expérience</h2>
+                <p>(Les paramètres par défaut sont ceux du Jeu de la Vie original)</p>
             </div>
             <div class="gridCell" id="cell2">
                 <h3>Taille de la grille</h3>
@@ -46,10 +46,16 @@
                 </div>
             </div>
             <div class="gridCell" id="cell4">
-                <h3>Paramètres des cellules</h3>
-                <div>
-                    <label for="cellColor">Couleur : </label>
-                    <input type="color" id="cellColor" value="#000000">
+                <h3>Couleurs des cellules</h3>
+                <div class="label-container">
+                    <div>
+                        <label for="cellColor">Cellules actives : </label>
+                        <input type="color" id="cellColor" value="#000000">
+                    </div>
+                    <div>
+                        <label for="bgColor">Cellules inactives : </label>
+                        <input type="color" id="bgColor" value="#ffffff">
+                    </div>
                 </div>
             </div>
             <div class="gridCell" id="cell5">

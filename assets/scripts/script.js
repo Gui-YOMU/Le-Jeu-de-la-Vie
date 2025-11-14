@@ -7,20 +7,23 @@ let overdose = document.querySelector("#overdose")
 let birth = document.querySelector("#birth")
 let occurrence = document.querySelector("#occurrence")
 let color = document.querySelector("#cellColor")
+let bGroundColor = document.querySelector("#bgColor")
 let delay = document.querySelector("#delay")
 let stepDisplay = document.querySelector("#stepDisplay")
 let footer = document.querySelector("footer")
 
 let gridSize = 0
-let blackSquareArray = []
-let whiteSquareArray = []
-let blackCounter = 0
+let activeCellArray = []
+let inactiveCellArray = []
+let colorCounter = 0
 let square = 0
 let counter = 0
 let cellColor
+let bgColor
 
 function gridCreation() {
     cellColor = hexToRGB(color.value)
+    bgColor = hexToRGB(bGroundColor.value)
     gridDisplay.replaceChildren()
     let gridHeight = Math.floor(parseInt(gridWidth.value) / 2)
     gridSize = gridWidth.value * gridHeight
@@ -30,12 +33,12 @@ function gridCreation() {
         square = document.createElement("div")
         gridDisplay.appendChild(square)
         square.setAttribute("id", `square${i}`)
-        square.style.backgroundColor = "white"
+        square.style.backgroundColor = bgColor
         square.addEventListener("click", function () {
-            if (this.style.backgroundColor == "white") {
+            if (this.style.backgroundColor == bgColor) {
                 this.style.backgroundColor = cellColor
             } else {
-                this.style.backgroundColor = "white"
+                this.style.backgroundColor = bgColor
             }
         })
     }
@@ -94,87 +97,87 @@ function randomize() {
 
 function step() {
     squareColorCheck()
-    blackSquarePerimeterCheck()
-    whiteSquarePerimeterCheck()
+    activeSquarePerimeterCheck()
+    inactiveSquarePerimeterCheck()
     changeCells()
 }
 
 function squareColorCheck() {
     for (let i = 0; i < gridSize; i++) {
         if (document.getElementById(`square${i}`).style.backgroundColor == cellColor) {
-            blackSquareArray.push(i)
-        } else if (document.getElementById(`square${i}`).style.backgroundColor == "white") {
-            whiteSquareArray.push(i)
+            activeCellArray.push(i)
+        } else if (document.getElementById(`square${i}`).style.backgroundColor == bgColor) {
+            inactiveCellArray.push(i)
         }
     }
 }
 
-function blackSquarePerimeterCheck() {
-    for (let i = 0; i < blackSquareArray.length; i++) {
+function activeSquarePerimeterCheck() {
+    for (let i = 0; i < activeCellArray.length; i++) {
         for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
-            if (document.getElementById(`square${blackSquareArray[i] - j}`) != null) {
-                if (document.getElementById(`square${blackSquareArray[i] - j}`).style.backgroundColor == cellColor) {
-                    blackCounter++
+            if (document.getElementById(`square${activeCellArray[i] - j}`) != null) {
+                if (document.getElementById(`square${activeCellArray[i] - j}`).style.backgroundColor == cellColor) {
+                    colorCounter++
                 }
             }
-            if (document.getElementById(`square${blackSquareArray[i] + j}`) != null) {
-                if (document.getElementById(`square${blackSquareArray[i] + j}`).style.backgroundColor == cellColor) {
-                    blackCounter++
+            if (document.getElementById(`square${activeCellArray[i] + j}`) != null) {
+                if (document.getElementById(`square${activeCellArray[i] + j}`).style.backgroundColor == cellColor) {
+                    colorCounter++
                 }
             }
         }
-        if (document.getElementById(`square${blackSquareArray[i] - 1}`) != null) {
-            if (document.getElementById(`square${blackSquareArray[i] - 1}`).style.backgroundColor == cellColor) {
-                blackCounter++
+        if (document.getElementById(`square${activeCellArray[i] - 1}`) != null) {
+            if (document.getElementById(`square${activeCellArray[i] - 1}`).style.backgroundColor == cellColor) {
+                colorCounter++
             }
         }
-        if (document.getElementById(`square${blackSquareArray[i] + 1}`) != null) {
-            if (document.getElementById(`square${blackSquareArray[i] + 1}`).style.backgroundColor == cellColor) {
-                blackCounter++
+        if (document.getElementById(`square${activeCellArray[i] + 1}`) != null) {
+            if (document.getElementById(`square${activeCellArray[i] + 1}`).style.backgroundColor == cellColor) {
+                colorCounter++
             }
         }
-        createDeath(document.getElementById(`square${blackSquareArray[i]}`), blackCounter)
-        blackCounter = 0
+        createDeath(document.getElementById(`square${activeCellArray[i]}`))
+        colorCounter = 0
     }
 }
 
-function whiteSquarePerimeterCheck() {
-    for (let i = 0; i < whiteSquareArray.length; i++) {
+function inactiveSquarePerimeterCheck() {
+    for (let i = 0; i < inactiveCellArray.length; i++) {
         for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
-            if (document.getElementById(`square${whiteSquareArray[i] - j}`) != null) {
-                if (document.getElementById(`square${whiteSquareArray[i] - j}`).style.backgroundColor == cellColor) {
-                    blackCounter++
+            if (document.getElementById(`square${inactiveCellArray[i] - j}`) != null) {
+                if (document.getElementById(`square${inactiveCellArray[i] - j}`).style.backgroundColor == cellColor) {
+                    colorCounter++
                 }
             }
-            if (document.getElementById(`square${whiteSquareArray[i] + j}`) != null) {
-                if (document.getElementById(`square${whiteSquareArray[i] + j}`).style.backgroundColor == cellColor) {
-                    blackCounter++
+            if (document.getElementById(`square${inactiveCellArray[i] + j}`) != null) {
+                if (document.getElementById(`square${inactiveCellArray[i] + j}`).style.backgroundColor == cellColor) {
+                    colorCounter++
                 }
             }
         }
-        if (document.getElementById(`square${whiteSquareArray[i] - 1}`) != null) {
-            if (document.getElementById(`square${whiteSquareArray[i] - 1}`).style.backgroundColor == cellColor) {
-                blackCounter++
+        if (document.getElementById(`square${inactiveCellArray[i] - 1}`) != null) {
+            if (document.getElementById(`square${inactiveCellArray[i] - 1}`).style.backgroundColor == cellColor) {
+                colorCounter++
             }
         }
-        if (document.getElementById(`square${whiteSquareArray[i] + 1}`) != null) {
-            if (document.getElementById(`square${whiteSquareArray[i] + 1}`).style.backgroundColor == cellColor) {
-                blackCounter++
+        if (document.getElementById(`square${inactiveCellArray[i] + 1}`) != null) {
+            if (document.getElementById(`square${inactiveCellArray[i] + 1}`).style.backgroundColor == cellColor) {
+                colorCounter++
             }
         }
-        createLife(document.getElementById(`square${whiteSquareArray[i]}`), blackCounter)
-        blackCounter = 0
+        createLife(document.getElementById(`square${inactiveCellArray[i]}`))
+        colorCounter = 0
     }
 }
 
-function createLife(square, counter) {
-    if (counter == parseInt(birth.value)) {
+function createLife(square) {
+    if (colorCounter == parseInt(birth.value)) {
         square.classList.add("toLive")
     }
 }
 
-function createDeath(square, counter) {
-    if (counter < parseInt(isolation.value) || counter > parseInt(overdose.value)) {
+function createDeath(square) {
+    if (colorCounter < parseInt(isolation.value) || colorCounter > parseInt(overdose.value)) {
         square.classList.add("toDie")
     }
 }
@@ -185,7 +188,7 @@ function changeCells() {
         let dyingCells = document.querySelectorAll(".toDie")
         let livingCells = document.querySelectorAll(".toLive")
         dyingCells.forEach(element => {
-            element.style.backgroundColor = "white"
+            element.style.backgroundColor = bgColor
         });
         livingCells.forEach(element => {
             element.style.backgroundColor = cellColor
@@ -196,8 +199,8 @@ function changeCells() {
 }
 
 function reset() {
-    blackSquareArray = []
-    whiteSquareArray = []
+    activeCellArray = []
+    inactiveCellArray = []
     let deadCells = document.querySelectorAll(".toDie")
     let newCells = document.querySelectorAll(".toLive")
     deadCells.forEach(element => {

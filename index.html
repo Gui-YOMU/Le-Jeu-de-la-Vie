@@ -10,50 +10,85 @@
 
 <body>
     <header>
+        <div class="logo-container">
+            <img src="./assets/images/lifeGameLogo.png" alt="logo">
+        </div>
         <h1>Le Jeu de la Vie</h1>
     </header>
     <main>
         <div id="rules">
-            <p>Dans le Jeu de la Vie, des cellules vont apparaître et disparaître en fonction des cellules de leur entourage direct.</p>
+            <p>Dans le Jeu de la Vie, des cellules vont apparaître et disparaître en fonction des cellules de leur
+                entourage direct.</p>
             <p>Paramétrez, lancez l'expérience et regardez le spectacle de la vie !</p>
         </div>
         <form>
-            <h2>Paramètres de l'expérience</h2>
-            <div>
+            <div class="gridCell" id="cell1">
+                <h2>Paramètres de l'expérience</h2>
+            </div>
+            <div class="gridCell" id="cell2">
                 <h3>Taille de la grille</h3>
-                <label for="gridWidth">Nombre de colonnes : </label>
-                <input type="number" id="gridWidth" value="50" min="10" max="100">
+                <div>
+                    <label for="gridWidth">Nombre de colonnes : </label>
+                    <input type="number" id="gridWidth" value="50" min="10" max="100">
+                </div>
             </div>
-            <div>
-                <h3>Conditions de survie de la cellule</h3>
-                <label for="isolation">Minimum de voisines : </label>
-                <input type="number" id="isolation" value="2" min="1" max="6">
-                <label for="overdose">Maximum de voisines : </label>
-                <input type="number" id="overdose" value="3" min="2" max="7">
-            </div>
-            <div>
-                <h3>Conditions de naissance d'une cellule</h3>
-                <label for="birth">Nombre de parents nécessaires : </label>
-                <input type="number" id="birth" value="3" min="1" max="8">
-            </div>
-            <div>
+            <div class="gridCell" id="cell3">
                 <h3>Durée de l'expérience</h3>
-                <label for="occurrence">Nombre d'occurrences : </label>
-                <input type="number" id="occurrence" value="100" min="10" max="1000">
-                <label for="delay">Délai (en millisecondes): </label>
-                <input type="number" id="delay" value="75" min="25" max="1000">
+                <div class="label-container">
+                    <div>
+                        <label for="occurrence">Nombre d'occurrences : </label>
+                        <input type="number" id="occurrence" value="100" min="10" max="1000">
+                    </div>
+                    <div>
+                        <label for="delay">Délai (en millisecondes): </label>
+                        <input type="number" id="delay" value="75" min="25" max="1000">
+                    </div>
+                </div>
             </div>
-            <button>Valider les paramètres</button>
+            <div class="gridCell" id="cell4">
+                <h3>Paramètres des cellules</h3>
+                <div>
+                    <label for="cellColor">Couleur : </label>
+                    <input type="color" id="cellColor" value="#000000">
+                </div>
+            </div>
+            <div class="gridCell" id="cell5">
+                <h3>Conditions de survie de la cellule</h3>
+                <div class="label-container">
+                    <div>
+                        <label for="isolation">Minimum de voisines : </label>
+                        <input type="number" id="isolation" value="2" min="1" max="6">
+                    </div>
+                    <div>
+                        <label for="overdose">Maximum de voisines : </label>
+                        <input type="number" id="overdose" value="3" min="2" max="7">
+                    </div>
+                </div>
+            </div>
+            <div class="gridCell" id="cell6">
+                <h3>Conditions de naissance d'une cellule</h3>
+                <div>
+                    <label for="birth">Nombre de parents nécessaires : </label>
+                    <input type="number" id="birth" value="3" min="1" max="8">
+                </div>
+            </div>
+            <div class="gridCell" id="cell7">
+                <button>Valider les paramètres</button>
+            </div>
         </form>
         <div id="gridDisplay"></div>
     </main>
     <footer>
         <p>Cliquez sur plusieurs cellules pour les faire "naître" (ou cliquez sur le bouton "Random" pour un design
             aléatoire), puis cliquez sur le bouton "Démarrer" pour lancer l'expérience.</p>
-        <button id="random">Random</button>
-        <button id="start">Démarrer</button>
-        <button id="reset">Retour</button>
-        <p>Etapes : <span id="stepDisplay">0</span></p>
+        <div>
+            <div class="button-container">
+                <button id="random">Random</button>
+                <button id="start">Démarrer</button>
+                <button id="reset">Retour</button>
+            </div>
+            <p id="stepDisplay">Etapes : 0</p>
+        </div>
     </footer>
 
     <script src="./assets/scripts/script.js"></script>

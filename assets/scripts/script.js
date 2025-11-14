@@ -6,6 +6,7 @@ let isolation = document.querySelector("#isolation")
 let overdose = document.querySelector("#overdose")
 let birth = document.querySelector("#birth")
 let occurrence = document.querySelector("#occurrence")
+let color = document.querySelector("#cellColor")
 let delay = document.querySelector("#delay")
 let stepDisplay = document.querySelector("#stepDisplay")
 let footer = document.querySelector("footer")
@@ -16,8 +17,10 @@ let whiteSquareArray = []
 let blackCounter = 0
 let square = 0
 let counter = 0
+let cellColor
 
 function gridCreation() {
+    cellColor = hexToRGB(color.value)
     gridDisplay.replaceChildren()
     let gridHeight = Math.floor(parseInt(gridWidth.value) / 2)
     gridSize = gridWidth.value * gridHeight
@@ -30,7 +33,7 @@ function gridCreation() {
         square.style.backgroundColor = "white"
         square.addEventListener("click", function () {
             if (this.style.backgroundColor == "white") {
-                this.style.backgroundColor = "black"
+                this.style.backgroundColor = cellColor
             } else {
                 this.style.backgroundColor = "white"
             }
@@ -38,16 +41,40 @@ function gridCreation() {
     }
 }
 
+const hexToRGB = (hex) => {
+    let alpha = false,
+        h = hex.slice(hex.startsWith("#") ? 1 : 0);
+    if (h.length === 3) h = [...h].map((x) => x + x).join("");
+    else if (h.length === 8) alpha = true;
+    h = parseInt(h, 16);
+    return (
+        "rgb" +
+        (alpha ? "a" : "") +
+        "(" +
+        (h >>> (alpha ? 24 : 16)) +
+        ", " +
+        ((h & (alpha ? 0x00ff0000 : 0x00ff00)) >>> (alpha ? 16 : 8)) +
+        ", " +
+        ((h & (alpha ? 0x0000ff00 : 0x0000ff)) >>> (alpha ? 8 : 0)) +
+        (alpha ? `, ${h & 0x000000ff}` : "") +
+        ")"
+    );
+};
+
 settings.addEventListener("submit", (e) => {
     e.preventDefault()
     rulesDisplay.style.display = "none"
     settings.style.display = "none"
     gridDisplay.style.display = "grid"
-    footer.style.display = "block"
+    footer.style.display = "flex"
     gridCreation()
 })
 
-document.querySelector("#start").addEventListener("click", step)
+document.querySelector("#start").addEventListener("click", () => {
+    counter = 0
+    stepDisplay.textContent = `Etapes : ${counter}`
+    step()
+})
 
 document.querySelector("#random").addEventListener("click", randomize)
 
@@ -60,13 +87,12 @@ function randomize() {
     for (let i = 0; i < gridSize; i++) {
         random = Math.floor(Math.random() * 2)
         if (random == 1) {
-            document.getElementById(`square${i}`).style.backgroundColor = "black"
+            document.getElementById(`square${i}`).style.backgroundColor = cellColor
         }
     }
 }
 
 function step() {
-
     squareColorCheck()
     blackSquarePerimeterCheck()
     whiteSquarePerimeterCheck()
@@ -75,7 +101,7 @@ function step() {
 
 function squareColorCheck() {
     for (let i = 0; i < gridSize; i++) {
-        if (document.getElementById(`square${i}`).style.backgroundColor == "black") {
+        if (document.getElementById(`square${i}`).style.backgroundColor == cellColor) {
             blackSquareArray.push(i)
         } else if (document.getElementById(`square${i}`).style.backgroundColor == "white") {
             whiteSquareArray.push(i)
@@ -87,23 +113,23 @@ function blackSquarePerimeterCheck() {
     for (let i = 0; i < blackSquareArray.length; i++) {
         for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
             if (document.getElementById(`square${blackSquareArray[i] - j}`) != null) {
-                if (document.getElementById(`square${blackSquareArray[i] - j}`).style.backgroundColor == "black") {
+                if (document.getElementById(`square${blackSquareArray[i] - j}`).style.backgroundColor == cellColor) {
                     blackCounter++
                 }
             }
             if (document.getElementById(`square${blackSquareArray[i] + j}`) != null) {
-                if (document.getElementById(`square${blackSquareArray[i] + j}`).style.backgroundColor == "black") {
+                if (document.getElementById(`square${blackSquareArray[i] + j}`).style.backgroundColor == cellColor) {
                     blackCounter++
                 }
             }
         }
         if (document.getElementById(`square${blackSquareArray[i] - 1}`) != null) {
-            if (document.getElementById(`square${blackSquareArray[i] - 1}`).style.backgroundColor == "black") {
+            if (document.getElementById(`square${blackSquareArray[i] - 1}`).style.backgroundColor == cellColor) {
                 blackCounter++
             }
         }
         if (document.getElementById(`square${blackSquareArray[i] + 1}`) != null) {
-            if (document.getElementById(`square${blackSquareArray[i] + 1}`).style.backgroundColor == "black") {
+            if (document.getElementById(`square${blackSquareArray[i] + 1}`).style.backgroundColor == cellColor) {
                 blackCounter++
             }
         }
@@ -116,23 +142,23 @@ function whiteSquarePerimeterCheck() {
     for (let i = 0; i < whiteSquareArray.length; i++) {
         for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
             if (document.getElementById(`square${whiteSquareArray[i] - j}`) != null) {
-                if (document.getElementById(`square${whiteSquareArray[i] - j}`).style.backgroundColor == "black") {
+                if (document.getElementById(`square${whiteSquareArray[i] - j}`).style.backgroundColor == cellColor) {
                     blackCounter++
                 }
             }
             if (document.getElementById(`square${whiteSquareArray[i] + j}`) != null) {
-                if (document.getElementById(`square${whiteSquareArray[i] + j}`).style.backgroundColor == "black") {
+                if (document.getElementById(`square${whiteSquareArray[i] + j}`).style.backgroundColor == cellColor) {
                     blackCounter++
                 }
             }
         }
         if (document.getElementById(`square${whiteSquareArray[i] - 1}`) != null) {
-            if (document.getElementById(`square${whiteSquareArray[i] - 1}`).style.backgroundColor == "black") {
+            if (document.getElementById(`square${whiteSquareArray[i] - 1}`).style.backgroundColor == cellColor) {
                 blackCounter++
             }
         }
         if (document.getElementById(`square${whiteSquareArray[i] + 1}`) != null) {
-            if (document.getElementById(`square${whiteSquareArray[i] + 1}`).style.backgroundColor == "black") {
+            if (document.getElementById(`square${whiteSquareArray[i] + 1}`).style.backgroundColor == cellColor) {
                 blackCounter++
             }
         }
@@ -162,9 +188,9 @@ function changeCells() {
             element.style.backgroundColor = "white"
         });
         livingCells.forEach(element => {
-            element.style.backgroundColor = "black"
+            element.style.backgroundColor = cellColor
         })
-        stepDisplay.textContent = counter
+        stepDisplay.textContent = `Etapes : ${counter}`
         reset()
     }
 }

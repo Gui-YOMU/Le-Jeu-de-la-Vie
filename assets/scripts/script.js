@@ -33,6 +33,7 @@ function gridCreation() {
         square = document.createElement("div")
         gridDisplay.appendChild(square)
         square.setAttribute("id", `square${i}`)
+        square.classList.add("square")
         square.style.backgroundColor = bgColor
         square.addEventListener("click", function () {
             if (this.style.backgroundColor == bgColor) {
@@ -86,6 +87,10 @@ document.querySelector("#reset").addEventListener("click", () => {
 })
 
 function randomize() {
+    let allSquares = document.querySelectorAll(".square")
+    allSquares.forEach(element => {
+        element.style.backgroundColor = bgColor
+    });
     let random = 0
     for (let i = 0; i < gridSize; i++) {
         random = Math.floor(Math.random() * 2)

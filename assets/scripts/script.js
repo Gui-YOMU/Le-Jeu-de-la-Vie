@@ -1,3 +1,5 @@
+// Récupération des objets du DOM
+
 let gridDisplay = document.querySelector("#gridDisplay")
 let rulesDisplay = document.querySelector("#rules")
 let settings = document.querySelector("form")
@@ -12,6 +14,8 @@ let delay = document.querySelector("#delay")
 let stepDisplay = document.querySelector("#stepDisplay")
 let footer = document.querySelector("footer")
 
+// Mise en place des variables utiles
+
 let gridSize = 0
 let activeCellArray = []
 let inactiveCellArray = []
@@ -20,6 +24,10 @@ let square = 0
 let counter = 0
 let cellColor
 let bgColor
+
+// Création des différentes fonctions
+
+// Création de la grille selon les paramètres choisis par l'utilisateur
 
 function gridCreation() {
     cellColor = hexToRGB(color.value)
@@ -45,6 +53,8 @@ function gridCreation() {
     }
 }
 
+// Modification du code couleur source hexadécimal vers un code RGB
+
 const hexToRGB = (hex) => {
     let alpha = false,
         h = hex.slice(hex.startsWith("#") ? 1 : 0);
@@ -65,26 +75,7 @@ const hexToRGB = (hex) => {
     );
 };
 
-settings.addEventListener("submit", (e) => {
-    e.preventDefault()
-    rulesDisplay.style.display = "none"
-    settings.style.display = "none"
-    gridDisplay.style.display = "grid"
-    footer.style.display = "flex"
-    gridCreation()
-})
-
-document.querySelector("#start").addEventListener("click", () => {
-    counter = 0
-    stepDisplay.textContent = `Etapes : ${counter}`
-    step()
-})
-
-document.querySelector("#random").addEventListener("click", randomize)
-
-document.querySelector("#reset").addEventListener("click", () => {
-    location.reload()
-})
+// Coloration aléatoire des cellules
 
 function randomize() {
     let allSquares = document.querySelectorAll(".square")
@@ -100,12 +91,16 @@ function randomize() {
     }
 }
 
+// Passage à l'étape d'évolution suivante
+
 function step() {
     squareColorCheck()
     activeSquarePerimeterCheck()
     inactiveSquarePerimeterCheck()
     changeCells()
 }
+
+// Vérification et tri des cellules selon leur couleur
 
 function squareColorCheck() {
     for (let i = 0; i < gridSize; i++) {
@@ -116,6 +111,8 @@ function squareColorCheck() {
         }
     }
 }
+
+// Vérification du nombre de cellules actives dans l'entourage d'une cellule active
 
 function activeSquarePerimeterCheck() {
     for (let i = 0; i < activeCellArray.length; i++) {
@@ -146,6 +143,8 @@ function activeSquarePerimeterCheck() {
     }
 }
 
+// Vérification du nombre de cellules actives dans l'entourage d'une cellule inactive
+
 function inactiveSquarePerimeterCheck() {
     for (let i = 0; i < inactiveCellArray.length; i++) {
         for (let j = (parseInt(gridWidth.value) - 1); j <= (parseInt(gridWidth.value) + 1); j++) {
@@ -175,17 +174,23 @@ function inactiveSquarePerimeterCheck() {
     }
 }
 
+// Attribution à une cellule inactive d'une classe en prévision de son activation
+
 function createLife(square) {
     if (colorCounter == parseInt(birth.value)) {
         square.classList.add("toLive")
     }
 }
 
+// Attribution à une cellule inactive d'une classe en prévision de son inactivation
+
 function createDeath(square) {
     if (colorCounter < parseInt(isolation.value) || colorCounter > parseInt(overdose.value)) {
         square.classList.add("toDie")
     }
 }
+
+// Changement de couleur simultané de l'ensemble des cellules
 
 function changeCells() {
     counter++
@@ -203,6 +208,8 @@ function changeCells() {
     }
 }
 
+// Réinitialisation des compteurs et classes pour préparer l'étape d'évolution suivante
+
 function reset() {
     activeCellArray = []
     inactiveCellArray = []
@@ -216,3 +223,26 @@ function reset() {
     })
     setTimeout(step, (parseInt(delay.value)))
 }
+
+// Création des fonctions attribuées aux boutons
+
+settings.addEventListener("submit", (e) => {
+    e.preventDefault()
+    rulesDisplay.style.display = "none"
+    settings.style.display = "none"
+    gridDisplay.style.display = "grid"
+    footer.style.display = "flex"
+    gridCreation()
+})
+
+document.querySelector("#start").addEventListener("click", () => {
+    counter = 0
+    stepDisplay.textContent = `Etapes : ${counter}`
+    step()
+})
+
+document.querySelector("#random").addEventListener("click", randomize)
+
+document.querySelector("#reset").addEventListener("click", () => {
+    location.reload()
+})
